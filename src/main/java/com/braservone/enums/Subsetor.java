@@ -1,0 +1,15 @@
+package com.braservone.enums;
+
+
+public enum Subsetor {
+	AUTOMOTIVO,
+	BASE,
+	CORTE_SOLDA,
+	HIDRAULICO,
+	INSPECAO,
+	INSTRUMENTACAO,
+	PINTURA,
+	PNEUMATICO,
+	USINAGEM,
+	OUTROS
+}

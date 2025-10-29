@@ -1,0 +1,11 @@
+package com.braservone.enums;
+
+public enum TipoQuimico {
+	ACELERADORES,
+	RETARDADORES,
+	EXTENSORES,
+	ADITIVOS_PESO,
+	DISPERSANTE,
+	CONTROLADORES,
+	ANTIESPUMANTE,
+}
