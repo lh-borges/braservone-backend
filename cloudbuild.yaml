@@ -5,12 +5,21 @@ steps:
       - -c
       - |
         chmod +x mvnw || true
-        ./mvnw -DskipTests package
+        ./mvnw clean package -DskipTests
   - name: gcr.io/cloud-builders/docker
     args:
       - build
       - -t
-      - southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/petroleo-backend
+        southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
       - .
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - braservone-api
+      - --image=southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
+      - --region=southamerica-east1
+      - --allow-unauthenticated
 images:
-  - southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/petroleo-backend
+  - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
