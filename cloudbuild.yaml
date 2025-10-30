@@ -1,0 +1,16 @@
+steps:
+  - name: gcr.io/cloud-builders/mvn
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        chmod +x mvnw || true
+        ./mvnw -DskipTests package
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/petroleo-backend
+      - .
+images:
+  - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/petroleo-backend
