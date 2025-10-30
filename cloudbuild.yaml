@@ -6,7 +6,7 @@ steps:
       - -c
       - mvn clean package -DskipTests -Dmaven.toolchains.skip=true
 
-  # 2) Docker build - usa o PROJECT_ID do próprio Cloud Build
+  # 2) Docker build
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -30,9 +30,7 @@ steps:
       - --image=southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api:latest
       - --region=southamerica-east1
       - --allow-unauthenticated
-      # dá tempo do Spring subir, criar pool e bater no Cloud SQL
       - --timeout=900
-      # vars de ambiente que o Spring vai ler
       - --set-env-vars=SPRING_PROFILES_ACTIVE=prod,DB_USERNAME=root,DB_PASSWORD=Bilzao90*,CLOUD_SQL_INSTANCE=magnetic-runway-196419:southamerica-east1:braser-one
 
 images:

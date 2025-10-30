@@ -1,14 +1,11 @@
-# Dockerfile
 FROM eclipse-temurin:17-jre AS runtime
 
 WORKDIR /app
 
-# copia o jar gerado pelo Maven
-COPY target/*.jar app.jar
+# esse é o nome que apareceu no seu target
+COPY target/braserv-one-0.0.1-SNAPSHOT.jar app.jar
 
-# Cloud Run manda a porta via env PORT
 ENV PORT=8080
 EXPOSE 8080
 
-# importantíssimo: ouvir em 0.0.0.0
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
