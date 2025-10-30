@@ -23,6 +23,7 @@ steps:
       - --image=southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
       - --region=southamerica-east1
       - --allow-unauthenticated
+      - --set-env-vars=SPRING_PROFILES_ACTIVE=prod,DB_USERNAME=root,DB_PASSWORD=Bilzao90*
 
 images:
   - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
