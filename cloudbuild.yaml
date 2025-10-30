@@ -31,7 +31,7 @@ steps:
       - --region=southamerica-east1
       - --allow-unauthenticated
       - --timeout=900
-      - --set-env-vars=SPRING_PROFILES_ACTIVE=prod,DB_USERNAME=root,DB_PASSWORD=Bilzao90*,CLOUD_SQL_INSTANCE=magnetic-runway-196419:southamerica-east1:braser-one
+      - --set-env-vars=SPRING_PROFILES_ACTIVE=prod,DB_USERNAME=root,DB_PASSWORD="Bilzao90*",CLOUD_SQL_INSTANCE=magnetic-runway-196419:southamerica-east1:braser-one
 
 images:
   - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api:latest
