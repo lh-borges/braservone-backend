@@ -34,7 +34,7 @@ steps:
       # agora cada env vai separada pra não ter treta de aspas
       - --set-env-vars=SPRING_PROFILES_ACTIVE=prod
       - --set-env-vars=DB_USERNAME=root
-      - --set-env-vars=DB_PASSWORD=123456789
+      - --set-env-vars=DB_PASSWORD=VQTTg\`|ECp7if(+E
       - --set-env-vars=CLOUD_SQL_INSTANCE=magnetic-runway-196419:southamerica-east1:braser-one
 
 images:
