@@ -16,13 +16,12 @@ import com.braservone.models.Veiculo;
 
 public interface AbastecimentoRepository extends JpaRepository<Abastecimento, Long> {
 
-  // seus existentes
+  
   Page<Abastecimento> findByVeiculo(Veiculo veiculo, Pageable pageable);
 
   Page<Abastecimento> findByVeiculo_PlacaOrderByDataAbastecimentoDesc(
       String placa, Pageable pageable);
 
-  // --- agregações diárias p/ gráficos ---
   @Query("""
       select 
          function('date', a.dataAbastecimento) as dia,

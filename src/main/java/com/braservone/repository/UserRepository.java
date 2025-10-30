@@ -22,7 +22,6 @@ public interface UserRepository extends JpaRepository<User, String> {  // String
 
     List<User> findUserByEmpresaId(Long idEmpresa);  // Aqui o tipo idEmpresa está correto
 
-    // ✅ Busca o usuário com roles carregadas (evita LazyInitializationException)
     @EntityGraph(attributePaths = "roles")
     @Query("select u from User u where u.username = :username")
     Optional<User> findByIdWithRoles(@Param("username") String username);

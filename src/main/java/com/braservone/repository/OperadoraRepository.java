@@ -13,10 +13,8 @@ import com.braservone.models.Operadora;
 
 public interface OperadoraRepository extends JpaRepository<Operadora, Long> {
 
-    // Busca por sigla (sem empresa)
     Optional<Operadora> findBySiglasIgnoreCase(String siglas);
 
-    // Busca paginada com filtros simples (sem empresa)
     @Query("""
            select o from Operadora o
            where (:ativo is null or o.ativo = :ativo)
@@ -31,6 +29,5 @@ public interface OperadoraRepository extends JpaRepository<Operadora, Long> {
             @Param("q") String q,
             Pageable pageable);
 
-    // (Opcional) se quiser garantir ativo + id na mesma consulta
     Optional<Operadora> findByIdAndAtivo(Long id, Boolean ativo);
 }

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO;
 import com.braservone.enums.StatusQuimicos;
 import com.braservone.models.Quimico;
 import com.braservone.service.QuimicoService;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
@@ -84,5 +84,11 @@ public class QuimicoController {
     public ResponseEntity<Void> remover(@PathVariable Long codigo) {
         quimicoService.excluir(codigo);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/estoque-agrupado")
+    public ResponseEntity<List<EstoqueQuimicoPorTipoRegiaoDTO>> listarEstoqueAgrupado() {
+        var lista = quimicoService.listarEstoqueAgrupadoPorTipoEEstado();
+        return ResponseEntity.ok(lista);
     }
 }

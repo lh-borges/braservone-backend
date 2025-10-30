@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO;
 import com.braservone.enums.StatusQuimicos;
 import com.braservone.models.Fornecedor;
 import com.braservone.models.Quimico;
@@ -120,6 +121,7 @@ public class QuimicoService {
             .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
                 "Químico " + codigo + " não encontrado."));
 
+        // fornecedor tratado separado
         if (patch.getFornecedor() != null) {
             Fornecedor novoFornecedor = (patch.getFornecedor().getId() == null)
                 ? null
@@ -132,11 +134,13 @@ public class QuimicoService {
             throw new IllegalArgumentException("Estoque inicial não pode ser negativo.");
         }
 
+        // aqui agora já atualiza estadoLocalArmazenamento e observacao
         entidade.atualizarCom(patch);
 
         Quimico atualizado = quimicoRepository.save(entidade);
         return quimicoRepository.findOneFetchFornecedor(atualizado.getCodigo()).orElse(atualizado);
     }
+
 
     // ========================= DELETE =========================
 
@@ -162,5 +166,10 @@ public class QuimicoService {
         if (in == null) return null; // se optional=false, troque por exceção
         if (in.getId() == null) return null;
         return resolveFornecedorNullable(in.getId());
+    }
+    
+    @Transactional(readOnly = true)
+    public List<EstoqueQuimicoPorTipoRegiaoDTO> listarEstoqueAgrupadoPorTipoEEstado() {
+        return quimicoRepository.listarEstoqueAgrupadoPorTipoEEstado();
     }
 }

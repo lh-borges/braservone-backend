@@ -12,11 +12,6 @@ import com.braservone.models.QuimicoMovimento;
 
 public interface QuimicoMovimentoRepository extends JpaRepository<QuimicoMovimento, Long> {
 
-    // =========================
-    // JPQL (preferência) — preserva movimentos e traz grafo
-    // Obs.: se existir @Where em Quimico, use as NATIVAS abaixo.
-    // =========================
-
     @Query("""
       select distinct m from QuimicoMovimento m
         left join fetch m.quimico q
@@ -55,12 +50,6 @@ public interface QuimicoMovimentoRepository extends JpaRepository<QuimicoMovimen
       order by m.criadoEm desc
     """)
     List<QuimicoMovimento> findByTipoQuimicoFetch(@Param("tipo") TipoQuimico tipo);
-
-    // =========================
-    // NATIVAS (bypass total) — use estas se houver @Where/@Filter
-    // Mantêm o retorno como ENTIDADE QuimicoMovimento
-    // (assumindo colunas: quimico_codigo / poco_codigo_anp)
-    // =========================
 
     @Query(value = """
       select m.*
@@ -101,8 +90,8 @@ public interface QuimicoMovimentoRepository extends JpaRepository<QuimicoMovimen
     """, nativeQuery = true)
     List<QuimicoMovimento> findByTipoQuimicoNative(@Param("tipo") String tipo);
 
-    // =========================
-    // Derivado simples (fallback)
-    // =========================
+
     List<QuimicoMovimento> findAllByOrderByCriadoEmDesc();
+    
+    
 }

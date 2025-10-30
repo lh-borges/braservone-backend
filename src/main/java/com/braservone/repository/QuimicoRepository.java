@@ -14,14 +14,12 @@ import com.braservone.models.Quimico;
 
 public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
 
-  // ===== Existentes (mantidos) =====
   @Query("select q from Quimico q join fetch q.fornecedor")
   List<Quimico> findAllFetchFornecedor();
 
   @Query("select q from Quimico q join fetch q.fornecedor where q.codigo = :codigo")
   Optional<Quimico> findOneFetchFornecedor(@Param("codigo") Long codigo);
 
-  // ===== Somente ATIVOS (com fornecedor) =====
   @Query("""
       select q from Quimico q
       join fetch q.fornecedor
@@ -61,11 +59,9 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
   )
   Page<Quimico> findPageByStatusFetchFornecedor(@Param("status") StatusQuimicos status, Pageable pageable);
 
-  // Alternativa via EntityGraph
   @EntityGraph(attributePaths = "fornecedor")
   List<Quimico> findByStatusQuimicos(StatusQuimicos status);
 
-  // ===== Agregações =====
   @Query("""
       select
         coalesce(q.estoqueInicial, 0) +
@@ -99,4 +95,32 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
       where m.quimico.codigo = :codigo
   """)
   BigDecimal sumMovimentadoLiquido(@Param("codigo") Long codigo);
+  
+  @Query("""
+		  select new com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO(
+		      q.tipoQuimico,
+		      q.estadoLocalArmazenamento,
+		      coalesce(sum(
+		        coalesce(q.estoqueInicial, 0) +
+		        coalesce(
+		          (
+		            select sum(
+		              case
+		                when m2.tipoMovimento = com.braservone.enums.TipoMovimento.ENTRADA
+		                  then m2.qntMovimentada
+		                else -m2.qntMovimentada
+		              end
+		            )
+		            from com.braservone.models.QuimicoMovimento m2
+		            where m2.quimico.codigo = q.codigo
+		          ), 0
+		        )
+		      ), 0)
+		  )
+		  from Quimico q
+		  group by q.tipoQuimico, q.estadoLocalArmazenamento
+		  order by q.tipoQuimico, q.estadoLocalArmazenamento
+		""")
+		List<com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO> listarEstoqueAgrupadoPorTipoEEstado();
+  
 }
