@@ -1,5 +1,13 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:17-jre as runtime
+
 WORKDIR /app
-COPY target/spring-boot-security-jwt-0.0.1-SNAPSHOT.jar app.jar
+
+# copia o jar gerado pelo Maven (ajuste o nome se o seu for outro)
+COPY target/*.jar app.jar
+
+# Cloud Run manda a porta via env PORT
+ENV PORT=8080
 EXPOSE 8080
+
+# importante: ouvir em 0.0.0.0
 ENTRYPOINT ["java","-jar","/app/app.jar"]
