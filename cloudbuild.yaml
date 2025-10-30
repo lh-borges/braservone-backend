@@ -1,7 +1,13 @@
 steps:
+  # 1) Maven - modo bruto, pula o toolchains
   - name: gcr.io/cloud-builders/mvn
-    args: ["clean", "package", "-DskipTests", "-Dmaven.toolchains.skip=true"]
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        mvn clean package -DskipTests -Dmaven.toolchains.skip=true
 
+  # 2) Docker build
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -9,6 +15,7 @@ steps:
         southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/braservone-api
       - .
 
+  # 3) Deploy no Cloud Run
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
