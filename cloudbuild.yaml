@@ -1,9 +1,7 @@
 steps:
-  # 1) usa o Maven do próprio Cloud Build, sem mvnw
   - name: gcr.io/cloud-builders/mvn
-    args: ["clean", "package", "-DskipTests"]
+    args: ["clean", "package", "-DskipTests", "-Dmaven.toolchains.skip=true"]
 
-  # 2) monta a imagem docker
   - name: gcr.io/cloud-builders/docker
     args:
       - build
@@ -11,7 +9,6 @@ steps:
         southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/braservone-api
       - .
 
-  # 3) deploy no Cloud Run
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
     args:
