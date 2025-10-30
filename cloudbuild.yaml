@@ -10,7 +10,7 @@ steps:
     args:
       - build
       - -t
-      - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/petroleo-backend
+      - southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/petroleo-backend
       - .
 images:
-  - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/petroleo-backend
+  - southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/petroleo-backend
