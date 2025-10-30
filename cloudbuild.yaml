@@ -4,15 +4,14 @@ steps:
     entrypoint: bash
     args:
       - -c
-      - |
-        mvn clean package -DskipTests -Dmaven.toolchains.skip=true
+      - mvn clean package -DskipTests -Dmaven.toolchains.skip=true
 
   # 2) Docker build
   - name: gcr.io/cloud-builders/docker
     args:
       - build
       - -t
-        southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/braservone-api
+      - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
       - .
 
   # 3) Deploy no Cloud Run
@@ -22,13 +21,13 @@ steps:
       - run
       - deploy
       - braservone-api
-      - --image=southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/braservone-api
+      - --image=southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
       - --region=southamerica-east1
       - --allow-unauthenticated
       - --set-env-vars=SPRING_PROFILES_ACTIVE=prod,DB_USERNAME=root,DB_PASSWORD=Bilzao90*
 
 images:
-  - southamerica-east1-docker.pkg.dev/braservone-api/backend-repo/braservone-api
+  - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api
 
 options:
   logging: CLOUD_LOGGING_ONLY
