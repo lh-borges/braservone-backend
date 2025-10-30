@@ -31,8 +31,11 @@ steps:
       - --region=southamerica-east1
       - --allow-unauthenticated
       - --timeout=900
-      # aqui está o pulo do gato 👇
-      - '--set-env-vars=SPRING_PROFILES_ACTIVE=prod,DB_USERNAME=root,DB_PASSWORD=VQTTg\`|ECp7if(+E,CLOUD_SQL_INSTANCE=magnetic-runway-196419:southamerica-east1:braser-one'
+      # agora cada env vai separada pra não ter treta de aspas
+      - --set-env-vars=SPRING_PROFILES_ACTIVE=prod
+      - --set-env-vars=DB_USERNAME=root
+      - --set-env-vars=DB_PASSWORD=VQTTg\`|ECp7if(+E
+      - --set-env-vars=CLOUD_SQL_INSTANCE=magnetic-runway-196419:southamerica-east1:braser-one
 
 images:
   - southamerica-east1-docker.pkg.dev/$PROJECT_ID/backend-repo/braservone-api:latest
