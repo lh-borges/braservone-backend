@@ -147,4 +147,13 @@
     </plugins>
   </build>
 
+  <!-- NOVO BLOCO: Define o repositório do Google para encontrar a dependência do Cloud SQL Connector -->
+  <repositories>
+      <repository>
+          <id>google-cloud-maven-repo</id>
+          <name>Google Cloud Maven Repository</name>
+          <url>https://maven.google.com</url>
+      </repository>
+  </repositories>
+
 </project>
