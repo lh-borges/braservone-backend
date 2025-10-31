@@ -45,10 +45,6 @@ public class User {
   @Column(length = 15, nullable = false)
   private String cpf;
 
-  @ManyToOne(optional = false)
-  @JoinColumn(name = "empresa_id", nullable = false)
-  private Empresa empresa;
-
   // @JsonIgnore
   // @Column(length = 120) private String password;
 
@@ -93,14 +89,6 @@ public class User {
 
   public void setCpf(String cpf) {
 	this.cpf = cpf;
-  }
-
-  public Empresa getEmpresa() {
-	return empresa;
-  }
-
-  public void setEmpresa(Empresa empresa) {
-	this.empresa = empresa;
   }
 
   public Set<Role> getRoles() {
