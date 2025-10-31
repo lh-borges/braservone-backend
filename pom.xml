@@ -56,11 +56,11 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!-- NOVO: Cloud SQL Connector 2.x (Substitui o socket-factory 1.x obsoleto) -->
+    <!-- CORREÇÃO: Cloud SQL Connector mais estável (Disponível no Maven Central) -->
     <dependency>
       <groupId>com.google.cloud</groupId>
-      <artifactId>cloud-sql-connector-jasy</artifactId>
-      <version>2.14.0</version> 
+      <artifactId>cloud-sql-jdbc-socket-factory</artifactId>
+      <version>1.13.0</version> 
     </dependency>
 
     <!-- JWT -->
@@ -147,13 +147,6 @@
     </plugins>
   </build>
 
-  <!-- NOVO BLOCO: Define o repositório do Google para encontrar a dependência do Cloud SQL Connector -->
-  <repositories>
-      <repository>
-          <id>google-cloud-maven-repo</id>
-          <name>Google Cloud Maven Repository</name>
-          <url>https://maven.google.com</url>
-      </repository>
-  </repositories>
+  <!-- REMOVIDO: O bloco <repositories> foi removido. O conector padrão deve ser encontrado no Maven Central. -->
 
 </project>
