@@ -13,6 +13,10 @@ public class SignupRequest {
   @Size(max = 50)
   @Email
   private String email;
+  
+  private String nome;
+  
+  private String cpf;
 
   private Set<String> role;
 
@@ -51,4 +55,24 @@ public class SignupRequest {
   public void setRole(Set<String> role) {
     this.role = role;
   }
+
+  public String getNome() {
+	return nome;
+  }
+
+  public void setNome(String nome) {
+	this.nome = nome;
+  }
+
+  public String getCpf() {
+	return cpf;
+  }
+
+  public void setCpf(String cpf) {
+	this.cpf = cpf;
+  }
+  
+  
+  
+  
 }

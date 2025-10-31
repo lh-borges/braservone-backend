@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.braservone.DTO.EmpresaDTO;
+// REMOVIDO: import com.braservone.DTO.EmpresaDTO;
 import com.braservone.enums.ERole;
 import com.braservone.models.Account;
-import com.braservone.models.Empresa;
+// REMOVIDO: import com.braservone.models.Empresa;
 import com.braservone.models.User;
 import com.braservone.payload.request.LoginRequest;
+// IMPORT FALTANTE:
+import com.braservone.payload.request.SignupRequest;
 import com.braservone.payload.response.JwtResponse;
 import com.braservone.payload.response.MessageResponse;
 import com.braservone.repository.AccountRepository;
@@ -34,7 +36,7 @@ import com.braservone.repository.UserRepository;
 import com.braservone.security.jwt.JwtUtils;
 import com.braservone.security.services.UserDetailsImpl;
 import com.braservone.service.AccountService;
-import com.braservone.service.EmpresaService;
+// REMOVIDO: import com.braservone.service.EmpresaService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,7 +55,7 @@ public class AuthController {
   private final UserRepository userRepository;           // ainda usado no signup (perfil)
   private final AccountRepository accountRepository;     // usado no refresh
   private final RoleRepository roleRepository;
-  private final EmpresaService empService;
+  // REMOVIDO: private final EmpresaService empService;
   private final JwtUtils jwtUtils;
   private final AccountService accountService;           // para criar habilitar login no signup
 
@@ -61,14 +63,14 @@ public class AuthController {
                         UserRepository userRepository,
                         AccountRepository accountRepository,
                         RoleRepository roleRepository,
-                        EmpresaService empService,
+                        // REMOVIDO: EmpresaService empService,
                         JwtUtils jwtUtils,
                         AccountService accountService) {
     this.authenticationManager = authenticationManager;
     this.userRepository = userRepository;
     this.accountRepository = accountRepository;
     this.roleRepository = roleRepository;
-    this.empService = empService;
+    // REMOVIDO: this.empService = empService;
     this.jwtUtils = jwtUtils;
     this.accountService = accountService;
   }
@@ -101,8 +103,6 @@ public class AuthController {
               .map(a -> a.getAuthority())
               .collect(Collectors.toList());
 
-      Empresa empresa = principal.getEmpresa();
-      EmpresaDTO empresaDTO = empService.toDTO(empresa);
 
       // 4) Retorna também os tokens no corpo
       return ResponseEntity.ok(new JwtResponse(
@@ -110,7 +110,7 @@ public class AuthController {
           refreshToken,      // ✅ inclui o refresh também
           principal.getUsername(),
           principal.getEmail(),
-          empresaDTO,
+          // REMOVIDO: empresaDTO,
           roles
       ));
   }
@@ -128,13 +128,13 @@ public class AuthController {
         .map(a -> a.getAuthority())
         .collect(Collectors.toList());
 
-    EmpresaDTO empresaDTO = empService.toDTO(principal.getEmpresa());
+    // REMOVIDO: EmpresaDTO empresaDTO = empService.toDTO(principal.getEmpresa());
 
     return ResponseEntity.ok(new JwtResponse(
         "", // sem token no body
         principal.getUsername(),
         principal.getEmail(),
-        empresaDTO,
+        // REMOVIDO: empresaDTO,
         roles
     ));
   }
@@ -157,7 +157,7 @@ public class AuthController {
     String newAccess = jwtUtils.generateAccessTokenFromUsername(username);
     addAccessCookie(response, newAccess);
 
-    // Carrega a Account para devolver dados (email, empresa, roles)
+    // Carrega a Account para devolver dados (email, roles)
     Account acc = accountRepository.findByUsername(username)
         .orElse(null);
 
@@ -173,13 +173,13 @@ public class AuthController {
         .map(r -> r.getName().name())
         .collect(Collectors.toList());
 
-    EmpresaDTO empresaDTO = empService.toDTO(acc.getUser().getEmpresa());
+    // REMOVIDO: EmpresaDTO empresaDTO = empService.toDTO(acc.getUser().getEmpresa());
 
     return ResponseEntity.ok(new JwtResponse(
         "", // token fica no cookie
         username,
         email,
-        empresaDTO,
+        // REMOVIDO: empresaDTO,
         roles
     ));
   }
@@ -198,25 +198,25 @@ public class AuthController {
     }
 
     // 1) Cria perfil (User) — ajuste aqui conforme seus campos obrigatórios (nome, cpf, empresa etc.)
-    //    Abaixo um exemplo mínimo. Se seu User exige nome/cpf/empresa not-null,
-    //    preencha a partir do SignupRequest (adicione os campos no DTO, se ainda não tiver).
     User user = new User();
     user.setUsername(signUpRequest.getUsername());
     user.setEmail(signUpRequest.getEmail());
     user.setNome(Optional.ofNullable(signUpRequest.getNome()).orElse(signUpRequest.getUsername())); // fallback
     user.setCpf(Optional.ofNullable(signUpRequest.getCpf()).orElse("00000000000"));
 
-    // empresa: se vier no request (ex.: empresaId), busque e set
+    // REMOVIDO: Lógica para buscar/setar Empresa:
+    /*
     if (signUpRequest.getEmpresaId() != null) {
       Empresa emp = empService.findById(signUpRequest.getEmpresaId())
           .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
       user.setEmpresa(emp);
     } else {
-      // se sua model exige empresa obrigatória, defina uma default ou erro
       Empresa empDefault = empService.getDefaultEmpresa()
           .orElseThrow(() -> new RuntimeException("Empresa padrão não configurada"));
       user.setEmpresa(empDefault);
     }
+    */
+    // Se o campo 'empresa' era obrigatório na entidade User, você DEVE removê-lo de lá.
 
     // (Opcional) roles organizacionais do perfil (user_roles). Pode deixar vazio.
     user.setRoles(new HashSet<>());

@@ -2,11 +2,39 @@ package com.braservone.payload.response;
 
 import java.util.List;
 
-import com.braservone.DTO.EmpresaDTO;
-import com.braservone.models.Empresa;
+// REMOVIDO: import com.braservone.DTO.EmpresaDTO;
+// REMOVIDO: import com.braservone.models.Empresa;
 
 public class JwtResponse {
-  public String getToken() {
+  private String token;
+  private String type = "Bearer";
+  private String username;
+  private String email;
+  // REMOVIDO: private EmpresaDTO empresa; // Campo EmpresaDTO removido
+
+  private List<String> roles;
+
+  // Construtor usado no /me (sem refresh token)
+  public JwtResponse(String accessToken, String username, String email, List<String> roles) {
+    this.token = accessToken;
+    this.username = username;
+    this.email = email;
+    this.roles = roles;
+  }
+
+  // Construtor usado no /login (com refresh token)
+  public JwtResponse(String accessToken, String refreshToken, String username, String email, List<String> roles) {
+	  this.token = accessToken;
+	  // Nota: o refreshToken não é um campo do DTO, mas foi passado aqui para reuso.
+	  // Se você deseja retorná-lo no DTO, adicione um campo para ele.
+	  this.username = username;
+	  this.email = email;
+	  this.roles = roles;
+  }
+
+  // Getters e Setters
+
+	public String getToken() {
 		return token;
 	}
 
@@ -22,15 +50,7 @@ public class JwtResponse {
 		this.type = type;
 	}
 
-	
-
-	public EmpresaDTO getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(EmpresaDTO empresa) {
-		this.empresa = empresa;
-	}
+  // REMOVIDO: Getters e setters de Empresa
 
 	public List<String> getRoles() {
 		return roles;
@@ -39,35 +59,6 @@ public class JwtResponse {
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
-
-private String token;
-  private String type = "Bearer";
-  private String username;
-  private String email;
-  private EmpresaDTO empresa;
-
-  private List<String> roles;
-
-  public JwtResponse(String accessToken,String username, String email, EmpresaDTO empresa, List<String> roles) {
-    this.token = accessToken;
-
-    this.username = username;
-    this.email = email;
-    this.roles = roles;
-    this.empresa = empresa;
- 
-  }
-
-  public JwtResponse(String accessToken, String refreshToken, String username2, String email2, EmpresaDTO empresaDTO,
-		List<String> roles2) {
-	
-	  this.token = accessToken;
-	  this.username = username2;
-	  this.email = email2;
-	  this.empresa = empresaDTO;
-	  this.roles = roles2;
-	  
-}
 
   public String getAccessToken() {
     return token;
@@ -101,5 +92,4 @@ private String token;
   public void setUsername(String username) {
     this.username = username;
   }
- 
 }
