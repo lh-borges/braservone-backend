@@ -1,4 +1,3 @@
-// src/main/java/com/projetopetroleo/config/BootstrapSeeder.java
 package com.braservone.config;
 
 import java.util.Set;
@@ -12,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.braservone.enums.ERole;
 import com.braservone.models.Account;
-import com.braservone.models.Empresa;
+// REMOVIDO: import com.braservone.models.Empresa;
 import com.braservone.models.Role;
 import com.braservone.models.User;
 import com.braservone.repository.AccountRepository;
-import com.braservone.repository.EmpresaRepository;
+// REMOVIDO: import com.braservone.repository.EmpresaRepository;
 import com.braservone.repository.RoleRepository;
 import com.braservone.repository.UserRepository;
 
@@ -28,8 +27,7 @@ public class BootstrapSeeder {
   public void run(boolean enabled,
                   String adminUsername, String adminCpf, String adminPassword,
                   String adminEmail, String adminNome,
-                  String empresaNome, String empresaCnpj,
-                  EmpresaRepository empresaRepository,
+                  // REMOVIDO: Argumentos de EmpresaRepository, empresaNome e empresaCnpj
                   RoleRepository roleRepository,
                   UserRepository userRepository,
                   AccountRepository accountRepository,
@@ -39,11 +37,12 @@ public class BootstrapSeeder {
 
     seedRoles(roleRepository);
 
-    Empresa empresa = upsertEmpresaByCnpj(empresaRepository, empresaCnpj, empresaNome);
+    // REMOVIDO: A criação da entidade Empresa
 
     // Buscar o User já com roles para não estourar LAZY
     User admin = userRepository.findByIdWithRoles(adminUsername)
-      .orElseGet(() -> upsertUserByUsername(userRepository, adminUsername, adminEmail, adminCpf, adminNome, empresa));
+      // Ajuste na chamada do helper
+      .orElseGet(() -> upsertUserByUsername(userRepository, adminUsername, adminEmail, adminCpf, adminNome));
 
     Role roleAdmin  = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow();
     Role roleMaster = roleRepository.findByName(ERole.ROLE_MASTER).orElseThrow();
@@ -97,20 +96,15 @@ public class BootstrapSeeder {
     });
   }
 
+  // REMOVIDO: Método upsertEmpresaByCnpj
+  /*
   private Empresa upsertEmpresaByCnpj(EmpresaRepository repo, String cnpj, String nome) {
-    return repo.findByCnpj(cnpj).orElseGet(() -> {
-      try {
-        Empresa e = new Empresa();
-        e.setNome(nome);
-        e.setCnpj(cnpj);
-        return repo.save(e);
-      } catch (DataIntegrityViolationException ex) {
-        return repo.findByCnpj(cnpj).orElseThrow();
-      }
-    });
+    // ... lógica removida
   }
+  */
 
-  private User upsertUserByUsername(UserRepository repo, String username, String email, String cpf, String nome, Empresa empresa) {
+  // Empresa removida da assinatura e do corpo
+  private User upsertUserByUsername(UserRepository repo, String username, String email, String cpf, String nome) {
     return repo.findById(username).orElseGet(() -> {
       try {
         User u = new User();
@@ -118,7 +112,7 @@ public class BootstrapSeeder {
         u.setEmail(email);
         u.setCpf(cpf);
         u.setNome(nome);
-        u.setEmpresa(empresa);
+        // REMOVIDO: u.setEmpresa(empresa);
         return repo.save(u);
       } catch (DataIntegrityViolationException ex) {
         return repo.findById(username).orElseThrow();

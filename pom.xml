@@ -12,11 +12,12 @@
     <relativePath/>
   </parent>
 
-  <groupId>com.bezkoder</groupId>
+  <!-- === IDENTIDADE DO PROJETO (alinhamos com o package) === -->
+  <groupId>com.braservone</groupId>
   <artifactId>braserv-one</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>braserv-one</name>
-  <description>Demo project for Spring Boot Security - JWT</description>
+  <description>API Braserv One - Spring Boot Security JWT</description>
 
   <properties>
     <java.version>17</java.version>
@@ -43,7 +44,7 @@
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
 
-    <!-- Validation -->
+    <!-- Validation (jakarta.validation) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
@@ -56,12 +57,13 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!-- CORREÇÃO: Cloud SQL Connector mais estável (Disponível no Maven Central) -->
-    <dependency>
-      <groupId>com.google.cloud</groupId>
-      <artifactId>cloud-sql-jdbc-socket-factory</artifactId>
-      <version>1.13.0</version> 
-    </dependency>
+    <!-- Conexão com Cloud SQL (mantive, mas em runtime) -->
+	<dependency>
+	  <groupId>com.google.cloud.sql</groupId>
+	  <artifactId>mysql-socket-factory-connector-j-8</artifactId>
+	  <version>1.8.1</version>
+	  <scope>runtime</scope>
+	</dependency>
 
     <!-- JWT -->
     <dependency>
@@ -82,14 +84,14 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!-- Gson -->
+    <!-- Gson (se realmente usar) -->
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
     </dependency>
 
-    <!-- Devtools (só em dev) -->
+    <!-- Devtools (apenas dev) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
@@ -110,7 +112,6 @@
   </dependencies>
 
   <build>
-    <!-- deixa o Spring empacotar normalmente os application*.properties -->
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -129,13 +130,17 @@
         </configuration>
       </plugin>
 
-      <!-- Spring Boot: gera o fat jar que o Docker vai rodar -->
+      <!-- Spring Boot: gera o fat-jar -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!-- força o main correto -->
+          <mainClass>com.braservone.BraservOneApplication</mainClass>
+        </configuration>
       </plugin>
 
-      <!-- Pular testes no build (pra não travar o Cloud Build) -->
+      <!-- Rodar build sem testes (se quiser deixar assim) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -146,7 +151,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <!-- REMOVIDO: O bloco <repositories> foi removido. O conector padrão deve ser encontrado no Maven Central. -->
 
 </project>

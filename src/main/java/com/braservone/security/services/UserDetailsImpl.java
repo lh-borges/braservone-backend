@@ -11,8 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.braservone.models.Account;
-import com.braservone.models.Empresa;
 import com.braservone.models.Role;
+// REMOVIDO: import com.braservone.models.Empresa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
@@ -26,23 +26,24 @@ public class UserDetailsImpl implements UserDetails {
 
   private final boolean enabled;
 
-  private final Empresa empresa; // 👈 agora incluímos a empresa
+  // REMOVIDO: Campo Empresa
+  // private final Empresa empresa; 
 
   private final Collection<? extends GrantedAuthority> authorities;
 
+  // Construtor ajustado (Empresa removida)
   public UserDetailsImpl(
       String username,
       String email,
       String password,
       boolean enabled,
-      Empresa empresa,
       Collection<? extends GrantedAuthority> authorities
   ) {
     this.username = username;
     this.email = email;
     this.password = password;
     this.enabled = enabled;
-    this.empresa = empresa;
+    // REMOVIDO: this.empresa = empresa;
     this.authorities = authorities;
   }
 
@@ -66,14 +67,14 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     final String email = account.getUser() != null ? account.getUser().getEmail() : null;
-    final Empresa empresa = account.getUser() != null ? account.getUser().getEmpresa() : null;
+    // REMOVIDO: final Empresa empresa = account.getUser() != null ? account.getUser().getEmpresa() : null;
 
     return new UserDetailsImpl(
         account.getUsername(),
         email,
         account.getPassword(),
         account.isEnabled(),
-        empresa,
+        // REMOVIDO: empresa,
         merged
     );
   }
@@ -87,9 +88,12 @@ public class UserDetailsImpl implements UserDetails {
     return email;
   }
 
+  // REMOVIDO: Getter da Empresa
+  /*
   public Empresa getEmpresa() {
     return empresa;
   }
+  */
 
   @Override
   public String getPassword() {

@@ -7,7 +7,6 @@ public class JwtResponse {
     private String type = "Bearer";
     private String username;
     private String email;
-    private EmpresaDTO empresa;
     private List<String> roles;
 
     // Construtor novo
@@ -21,7 +20,6 @@ public class JwtResponse {
         this.refreshToken = refreshToken;
         this.username = username;
         this.email = email;
-        this.empresa = empresa;
         this.roles = roles;
     }
 
@@ -63,14 +61,6 @@ public class JwtResponse {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public EmpresaDTO getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(EmpresaDTO empresa) {
-		this.empresa = empresa;
 	}
 
 	public List<String> getRoles() {

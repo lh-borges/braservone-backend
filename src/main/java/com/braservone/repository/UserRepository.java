@@ -20,8 +20,6 @@ public interface UserRepository extends JpaRepository<User, String> {  // String
     
     Optional<User> findByUsername(String username);
 
-    List<User> findUserByEmpresaId(Long idEmpresa);  // Aqui o tipo idEmpresa está correto
-
     @EntityGraph(attributePaths = "roles")
     @Query("select u from User u where u.username = :username")
     Optional<User> findByIdWithRoles(@Param("username") String username);

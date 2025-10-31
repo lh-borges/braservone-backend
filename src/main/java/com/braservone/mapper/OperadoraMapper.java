@@ -2,7 +2,6 @@
 package com.braservone.mapper;
 
 import com.braservone.DTO.OperadoraDTO;
-import com.braservone.models.Empresa;
 import com.braservone.models.Operadora;
 
 public final class OperadoraMapper {
@@ -23,7 +22,7 @@ public final class OperadoraMapper {
         );
     }
 
-    public static void updateEntity(Operadora o, OperadoraDTO dto, Empresa empresa) {
+    public static void updateEntity(Operadora o, OperadoraDTO dto) {
         if (dto.nome() != null) o.setNome(dto.nome());
         if (dto.siglas() != null) o.setSiglas(dto.siglas());
         if (dto.pais() != null) o.setPais(dto.pais());

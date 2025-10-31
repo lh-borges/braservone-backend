@@ -1,8 +1,7 @@
-// src/main/java/com/projetopetroleo/controllers/PocoController.java
+// src/main/java/com/braservone/controllers/PocoController.java
 package com.braservone.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import jakarta.validation.Valid;
 
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.braservone.DTO.PocoDTO;
@@ -31,10 +29,11 @@ public class PocoController {
     this.pocoService = pocoService;
   }
 
+  // GET por código ANP
   @GetMapping(value = "/{codigoAnp}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> getByCodigoAnp(@PathVariable String codigoAnp, Authentication auth) {
+  public ResponseEntity<?> getByCodigoAnp(@PathVariable String codigoAnp) {
     try {
-      Poco poco = pocoService.getPocoByCodigoAnp(codigoAnp, auth);
+      Poco poco = pocoService.getPocoByCodigoAnp(codigoAnp);
       return ResponseEntity.ok(poco);
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -44,7 +43,7 @@ public class PocoController {
     }
   }
 
-  /** NOVO: GET paginado em DTO */
+  // GET paginado em DTO
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> listPaged(
       @PageableDefault(size = 50)
@@ -61,10 +60,9 @@ public class PocoController {
     }
   }
 
-  // ===== demais endpoints permanecem iguais =====
-
+  // POST - criar
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<?> add(@Valid @RequestBody Poco poco, Authentication auth) {
+  public ResponseEntity<?> add(@Valid @RequestBody Poco poco) {
     try {
       Poco novo = pocoService.addPoco(poco);
       return ResponseEntity
@@ -78,12 +76,12 @@ public class PocoController {
     }
   }
 
+  // PATCH - atualizar parcialmente
   @PatchMapping(value = "/{codigoAnp}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> edit(@PathVariable String codigoAnp,
-                                @RequestBody Poco dadosAtualizados,
-                                Authentication auth) {
+                                @RequestBody Poco dadosAtualizados) {
     try {
-      Poco atualizado = pocoService.editarPoco(codigoAnp, dadosAtualizados, auth);
+      Poco atualizado = pocoService.editarPoco(codigoAnp, dadosAtualizados);
       return ResponseEntity.ok(atualizado);
     } catch (IllegalArgumentException e) {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -93,10 +91,11 @@ public class PocoController {
     }
   }
 
+  // DELETE
   @DeleteMapping("/{codigoAnp}")
-  public ResponseEntity<?> delete(@PathVariable String codigoAnp, Authentication auth) {
+  public ResponseEntity<?> delete(@PathVariable String codigoAnp) {
     try {
-      boolean removed = pocoService.deletePoco(codigoAnp, auth);
+      boolean removed = pocoService.deletePoco(codigoAnp);
       if (!removed) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
             .body("Poço não encontrado para exclusão.");
