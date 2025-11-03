@@ -10,11 +10,14 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.*;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.braservone.security.jwt.AuthEntryPointJwt;
 import com.braservone.security.jwt.AuthTokenFilter;
@@ -33,10 +36,15 @@ public class WebSecurityConfig {
                            AuthTokenFilter authTokenFilter) {
     this.userDetailsService = userDetailsService;
     this.unauthorizedHandler = unauthorizedHandler;
-    this.authTokenFilter = authTokenFilter; // bean do @Component
+    this.authTokenFilter = authTokenFilter;
   }
 
-  // ===== Beans de auth =====
+  /* ===== Password & Auth ===== */
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -50,57 +58,58 @@ public class WebSecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
-  // ===== CORS =====
+  /* ===== CORS ===== */
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration cfg = new CorsConfiguration();
-    cfg.setAllowedOriginPatterns(List.of(
+
+    // Origens EXATAS do front (prod + dev). HTTPS no Cloud Run.
+    cfg.setAllowedOrigins(List.of(
+        "https://braserv-front-786579739769.southamerica-east1.run.app",
         "http://localhost:4200",
         "http://127.0.0.1:4200"
     ));
-    cfg.setAllowCredentials(true);
-    // **Inclui PATCH e OPTIONS**
+
+    // Métodos usados pelo front (inclui preflight)
     cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-    // **Inclui Authorization explicitamente**
+
+    // Headers que o front envia
     cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"));
-    // Exponha se precisar ler no front (opcional)
-    cfg.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
+
+    // JWT via Authorization header -> sem cookies -> deixe FALSE
+    cfg.setAllowCredentials(false);
+
+    // Cache do preflight no navegador (1h)
+    cfg.setMaxAge(3600L);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", cfg);
     return source;
   }
 
-  // ===== Security =====
+  /* ===== Security ===== */
   @Bean
-  public SecurityFilterChain filterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+      .cors(c -> c.configurationSource(corsConfigurationSource()))
       .csrf(csrf -> csrf.disable())
       .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
       .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth
-          // **Libera preflight OPTIONS**
+          // Preflight liberado
           .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-          // **Auth público**
+          // Endpoints públicos de auth
           .requestMatchers("/api/auth/login", "/api/auth/refresh").permitAll()
 
-          // Protegidos
-          .requestMatchers("/api/auth/me").authenticated()
-          .requestMatchers("/api/user/**").hasAnyAuthority("ROLE_MASTER", "ROLE_ADMIN")
+          // (opcional) health para readiness/liveness
+          .requestMatchers("/actuator/health").permitAll()
 
-          // Demais
+          // Demais precisam de auth
           .anyRequest().authenticated()
       );
 
     http.authenticationProvider(authenticationProvider());
-    // Usa o bean do filtro já gerenciado pelo Spring
     http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
