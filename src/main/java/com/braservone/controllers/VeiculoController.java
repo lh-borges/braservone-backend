@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.braservone.enums.StatusVeiculos;
 import com.braservone.models.Veiculo;
-import com.braservone.service.VeiculoService;
+import com.braservone.services.VeiculoService;
 
 import jakarta.validation.Valid;
 

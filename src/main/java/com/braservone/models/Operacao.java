@@ -13,8 +13,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "operacao")
 public class Operacao {
 
@@ -23,8 +27,8 @@ public class Operacao {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(
-      name = "poco_codigo_anp",               // nome da coluna na tabela operacao
-      referencedColumnName = "codigo_anp",    // nome da coluna PK/UK em 'pocos'
+      name = "poco_codigo_anp",               
+      referencedColumnName = "codigo_anp",   
       nullable = false,
       foreignKey = @ForeignKey(name = "FK_operacao_poco")
   )
@@ -42,49 +46,6 @@ public class Operacao {
 
   private LocalDateTime dataInicio;
   private LocalDateTime dataFinal;
-  public Long getId() {
-	return id;
-  }
-  public void setId(Long id) {
-	this.id = id;
-  }
-  public Poco getPoco() {
-	return poco;
-  }
-  public void setPoco(Poco poco) {
-	this.poco = poco;
-  }
-  public String getNomeOperacao() {
-	return nomeOperacao;
-  }
-  public void setNomeOperacao(String nomeOperacao) {
-	this.nomeOperacao = nomeOperacao;
-  }
-  public Operadora getOperadora() {
-	return operadora;
-  }
-  public void setOperadora(Operadora operadora) {
-	this.operadora = operadora;
-  }
-  public boolean isStatus() {
-	return status;
-  }
-  public void setStatus(boolean status) {
-	this.status = status;
-  }
-  public LocalDateTime getDataInicio() {
-	return dataInicio;
-  }
-  public void setDataInicio(LocalDateTime dataInicio) {
-	this.dataInicio = dataInicio;
-  }
-  public LocalDateTime getDataFinal() {
-	return dataFinal;
-  }
-  public void setDataFinal(LocalDateTime dataFinal) {
-	this.dataFinal = dataFinal;
-  }
-
-  // getters/setters
-  // ...
+  
+  
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.braservone.DTO.AbastecimentoCreateDTO;
 import com.braservone.DTO.AbastecimentoResponseDTO;
-import com.braservone.service.AbastecimentoService;
+import com.braservone.services.AbastecimentoService;
 
 import jakarta.validation.Valid;
 

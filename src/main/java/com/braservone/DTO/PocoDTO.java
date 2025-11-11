@@ -1,18 +1,26 @@
+// com/braservone/DTO/PocoDTO.java
 package com.braservone.DTO;
 
 import java.math.BigDecimal;
+
+import org.springframework.util.StringUtils;
 
 import com.braservone.enums.Bacia;
 import com.braservone.enums.Estado;
 import com.braservone.enums.StatusPoco;
 import com.braservone.models.Poco;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PocoDTO {
 
   private String codANP;
   private Bacia bacia;
   private Estado estado;
-  private StatusPoco status;   // <-- ; corrigido
+  private StatusPoco status;
 
   // Campos usados no toDTO do service
   private String fluido;
@@ -21,67 +29,26 @@ public class PocoDTO {
   private BigDecimal latitude;
   private BigDecimal longitude;
 
-  // Getters/Setters
-  public String getCodANP() {
-    return codANP;
-  }
-  public void setCodANP(String codANP) {
-    this.codANP = codANP;
-  }
-
-  public Bacia getBacia() {
-    return bacia;
-  }
-  public void setBacia(Bacia bacia) {
-    this.bacia = bacia;
-  }
-
-  public Estado getEstado() {
-    return estado;
-  }
-  public void setEstado(Estado estado) {
-    this.estado = estado;
+  /** Fábrica: monta o DTO a partir da entidade sem acessar recursos externos. */
+  public static PocoDTO fromEntity(Poco p) {
+    if (p == null) return null;
+    PocoDTO dto = new PocoDTO();
+    dto.setCodANP(p.getCodigoAnp());
+    dto.setBacia(p.getBacia());
+    // dto.setEstado(p.getEstado()); // habilite se a entidade tiver este campo
+    dto.setStatus(p.getStatus());
+    dto.setFluido(p.getFluido() != null ? p.getFluido().name() : null);
+    dto.setNomeCampo(p.getNomeCampo());
+    dto.setLocal(p.getLocal());
+    dto.setLatitude(p.getLatitude());
+    dto.setLongitude(p.getLongitude());
+    return dto;
   }
 
-  public StatusPoco getStatus() {
-    return status;
-  }
-  public void setStatus(StatusPoco status) {
-    this.status = status;
-  }
-
-  public String getFluido() {
-    return fluido;
-  }
-  public void setFluido(String fluido) {
-    this.fluido = fluido;
-  }
-
-  public String getNomeCampo() {
-    return nomeCampo;
-  }
-  public void setNomeCampo(String nomeCampo) {
-    this.nomeCampo = nomeCampo;
-  }
-
-  public String getLocal() {
-    return local;
-  }
-  public void setLocal(String local) {
-    this.local = local;
-  }
-
-  public BigDecimal getLatitude() {
-    return latitude;
-  }
-  public void setLatitude(BigDecimal latitude) {
-    this.latitude = latitude;
-  }
-
-  public BigDecimal getLongitude() {
-    return longitude;
-  }
-  public void setLongitude(BigDecimal longitude) {
-    this.longitude = longitude;
+  /** Validação simples que o próprio DTO consegue fazer. */
+  public void validateCodigoAnp() {
+    if (!StringUtils.hasText(this.codANP)) {
+      throw new IllegalArgumentException("codigoAnp é obrigatório.");
+    }
   }
 }

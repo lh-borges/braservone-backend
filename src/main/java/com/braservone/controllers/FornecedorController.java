@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.braservone.models.Fornecedor;
-import com.braservone.service.FornecedorService;
+import com.braservone.services.FornecedorService;
 
 @RestController
 @RequestMapping("/api/fornecedores")

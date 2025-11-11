@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.braservone.DTO.OperacaoCreateDTO;
 import com.braservone.DTO.OperacaoResponseDTO;
 import com.braservone.DTO.OperacaoUpdateDTO;
-import com.braservone.service.OperacaoService;
+import com.braservone.services.OperacaoService;
 import com.google.gson.Gson;
 
 import jakarta.validation.Valid;

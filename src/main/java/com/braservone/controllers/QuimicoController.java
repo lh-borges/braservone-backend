@@ -6,20 +6,14 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO;
 import com.braservone.enums.StatusQuimicos;
 import com.braservone.models.Quimico;
-import com.braservone.service.QuimicoService;
+import com.braservone.services.QuimicoService;
 
 import jakarta.validation.Valid;
 
@@ -34,29 +28,56 @@ public class QuimicoController {
         this.quimicoService = quimicoService;
     }
 
+    // ========================= READ =========================
+
+    /** Lista todos (qualquer status) com fornecedor carregado. */
     @GetMapping
     public ResponseEntity<List<Quimico>> listar() {
-        // ideal: service.listar() já buscar com fornecedor carregado (veja nota abaixo)
         List<Quimico> entidades = quimicoService.listar();
         return ResponseEntity.ok(entidades);
     }
+
+    /** Lista apenas ATIVOS (atalho semântico). */
     @GetMapping("/ativos")
     public ResponseEntity<List<Quimico>> listarAtivos() {
-        // ideal: service.listar() já buscar com fornecedor carregado (veja nota abaixo)
-        List<Quimico> entidades = quimicoService.listarPorStatus(StatusQuimicos.ATIVO);
+        List<Quimico> entidades = quimicoService.listarAtivos();
         return ResponseEntity.ok(entidades);
     }
 
+    /** Lista por status específico (ATIVO/INATIVO/FINALIZADO). */
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Quimico>> listarPorStatus(@PathVariable String status) {
+        StatusQuimicos st = StatusQuimicos.valueOf(status.toUpperCase());
+        return ResponseEntity.ok(quimicoService.listarPorStatus(st));
+    }
+
+    /** Lista leve para selects, cards e labels. */
+    @GetMapping("/lite")
+    public ResponseEntity<List<QuimicoService.QuimicoLite>> listarLite() {
+        return ResponseEntity.ok(quimicoService.listarLite());
+    }
+
+    /** Busca por código. */
     @GetMapping("/{codigo}")
     public ResponseEntity<Quimico> buscar(@PathVariable Long codigo) {
-        Quimico entidade = quimicoService.buscar(codigo); // lança 404 no service se não achar
+        Quimico entidade = quimicoService.buscar(codigo);
         return ResponseEntity.ok(entidade);
     }
 
+    /** Saldo atual de um químico. */
     @GetMapping("/{codigo}/estoque-atual")
     public ResponseEntity<BigDecimal> estoqueAtual(@PathVariable Long codigo) {
         return ResponseEntity.ok(quimicoService.estoqueAtual(codigo));
     }
+
+    /** Estoque agrupado por tipo e estado (RN, AL, ...). */
+    @GetMapping("/estoque-agrupado")
+    public ResponseEntity<List<EstoqueQuimicoPorTipoRegiaoDTO>> listarEstoqueAgrupado() {
+        var lista = quimicoService.listarEstoqueAgrupadoPorTipoEEstado();
+        return ResponseEntity.ok(lista);
+    }
+
+    // ========================= CREATE =========================
 
     @PostMapping
     public ResponseEntity<Quimico> criar(@Valid @RequestBody Quimico payload) {
@@ -70,6 +91,9 @@ public class QuimicoController {
         return ResponseEntity.created(location).body(salvo);
     }
 
+    // ========================= UPDATE =========================
+
+    /** PUT: atualização "completa" (respeita validações do service). */
     @PutMapping("/{codigo}")
     public ResponseEntity<Quimico> atualizar(@PathVariable Long codigo,
                                              @Valid @RequestBody Quimico payload) {
@@ -80,15 +104,19 @@ public class QuimicoController {
         return ResponseEntity.ok(atualizado);
     }
 
+    /** PATCH: atualização parcial (usa o mesmo service.atualizar com o "patch"). */
+    @PatchMapping("/{codigo}")
+    public ResponseEntity<Quimico> patch(@PathVariable Long codigo,
+                                         @RequestBody Quimico patch) {
+        Quimico atualizado = quimicoService.atualizar(codigo, patch);
+        return ResponseEntity.ok(atualizado);
+    }
+
+    // ========================= DELETE =========================
+
     @DeleteMapping("/{codigo}")
     public ResponseEntity<Void> remover(@PathVariable Long codigo) {
         quimicoService.excluir(codigo);
         return ResponseEntity.noContent().build();
-    }
-    
-    @GetMapping("/estoque-agrupado")
-    public ResponseEntity<List<EstoqueQuimicoPorTipoRegiaoDTO>> listarEstoqueAgrupado() {
-        var lista = quimicoService.listarEstoqueAgrupadoPorTipoEEstado();
-        return ResponseEntity.ok(lista);
     }
 }

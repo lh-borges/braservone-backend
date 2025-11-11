@@ -5,12 +5,17 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.braservone.enums.TipoMovimento;
 import com.braservone.enums.TipoQuimico;
 import com.braservone.models.QuimicoMovimento;
-import com.braservone.service.QuimicoMovimentoService;
+import com.braservone.services.QuimicoMovimentoService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
@@ -54,8 +59,18 @@ public class QuimicoMovimentoController {
             req.getTipo(),
             req.getQuantidade()
         );
+        
+        System.out.println("FAZENDO REGISTRO DO MOVIMENTO:" + req.getPocoCodigoAnp());
+        
         return ResponseEntity.ok(salvo);
     }
+    
+    @GetMapping("/tipo-movimento/{tipo}")
+    public ResponseEntity<List<QuimicoMovimento>> listarPorTipoMovimento(@PathVariable TipoMovimento tipo) {
+        var lista = movimentoService.listarPorTipoMovimento(tipo);
+        return lista.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(lista);
+    }
+
 
     /** Listar TODOS (com fetch no service) */
     @GetMapping

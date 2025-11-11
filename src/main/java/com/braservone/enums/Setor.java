@@ -6,6 +6,7 @@ public enum Setor {
 	MANUFATURA,
 	ELETRICA,
 	TRANSPORTE,
+	OPERACAO,
 	OUTROS
 	
 }

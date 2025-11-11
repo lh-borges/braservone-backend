@@ -2,9 +2,15 @@
 package com.braservone.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "operadora")
 public class Operadora {
 
@@ -13,6 +19,7 @@ public class Operadora {
     private Long id;
 
     @Column(nullable=false)
+    @NotBlank
     private String nome;
 
     @Column(length = 16)
@@ -22,40 +29,16 @@ public class Operadora {
 
     @Embedded
     private Endereco endereco;
-
+    
+    @NotBlank
     private String emailContato;
+    @NotBlank
     private String telefoneContato;
     private String responsaveltecnico;
 
     @Column(nullable=false)
     private Boolean ativo = Boolean.TRUE;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public String getSiglas() { return siglas; }
-    public void setSiglas(String siglas) { this.siglas = siglas; }
-
-    public String getPais() { return pais; }
-    public void setPais(String pais) { this.pais = pais; }
-
-    public Endereco getEndereco() { return endereco; }
-    public void setEndereco(Endereco endereco) { this.endereco = endereco; }
-
-    public String getEmailContato() { return emailContato; }
-    public void setEmailContato(String emailContato) { this.emailContato = emailContato; }
-
-    public String getTelefoneContato() { return telefoneContato; }
-    public void setTelefoneContato(String telefoneContato) { this.telefoneContato = telefoneContato; }
-
-    public String getResponsaveltecnico() { return responsaveltecnico; }
-    public void setResponsaveltecnico(String responsaveltecnico) { this.responsaveltecnico = responsaveltecnico; }
-
-    public Boolean getAtivo() { return ativo; }
-    public void setAtivo(Boolean ativo) { this.ativo = ativo; }
 
     @Override public boolean equals(Object o) {
         if (this == o) return true;

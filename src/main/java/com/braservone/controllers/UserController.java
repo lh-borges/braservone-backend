@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.braservone.DTO.UpdateUserDTO;
 import com.braservone.models.User;
-import com.braservone.service.UserService;
+import com.braservone.services.UserService;
 
 import jakarta.validation.Valid;
 

@@ -35,8 +35,7 @@ import com.braservone.repository.RoleRepository;
 import com.braservone.repository.UserRepository;
 import com.braservone.security.jwt.JwtUtils;
 import com.braservone.security.services.UserDetailsImpl;
-import com.braservone.service.AccountService;
-// REMOVIDO: import com.braservone.service.EmpresaService;
+import com.braservone.services.AccountService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

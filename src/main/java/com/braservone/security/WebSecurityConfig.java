@@ -58,28 +58,19 @@ public class WebSecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
-  /* ===== CORS ===== */
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration cfg = new CorsConfiguration();
 
-    // Origens EXATAS do front (prod + dev). HTTPS no Cloud Run.
     cfg.setAllowedOrigins(List.of(
         "https://braserv-front-786579739769.southamerica-east1.run.app",
         "http://localhost:4200",
         "http://127.0.0.1:4200"
     ));
 
-    // Métodos usados pelo front (inclui preflight)
     cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-
-    // Headers que o front envia
     cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept", "Origin"));
-
-    // JWT via Authorization header -> sem cookies -> deixe FALSE
     cfg.setAllowCredentials(false);
-
-    // Cache do preflight no navegador (1h)
     cfg.setMaxAge(3600L);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -87,7 +78,6 @@ public class WebSecurityConfig {
     return source;
   }
 
-  /* ===== Security ===== */
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
@@ -96,16 +86,12 @@ public class WebSecurityConfig {
       .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
       .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .authorizeHttpRequests(auth -> auth
-          // Preflight liberado
           .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-          // Endpoints públicos de auth
+         
           .requestMatchers("/api/auth/login", "/api/auth/refresh").permitAll()
-
-          // (opcional) health para readiness/liveness
           .requestMatchers("/actuator/health").permitAll()
-
-          // Demais precisam de auth
+          .requestMatchers(HttpMethod.GET, "/api/veiculos").permitAll()
+          .requestMatchers(HttpMethod.POST, "/api/reportes").permitAll()
           .anyRequest().authenticated()
       );
 

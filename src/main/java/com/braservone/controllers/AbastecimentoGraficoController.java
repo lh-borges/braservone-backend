@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.braservone.DTO.AbastFiltroReq;
 import com.braservone.DTO.DiaAggResp;
-import com.braservone.service.AbastecimentoGraficoService;
+import com.braservone.services.AbastecimentoGraficoService;
 
 @RestController
 @RequestMapping("/api/abastecimentos/graficos")

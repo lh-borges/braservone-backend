@@ -34,6 +34,10 @@ public class Veiculo {
     @NotBlank
     @Pattern(regexp = "^[A-Za-z0-9-]{6,10}$", message = "Placa em formato inválido")
     private String placa;
+    
+    @NotNull
+    @NotBlank
+    private String apelido;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -48,7 +52,7 @@ public class Veiculo {
     @Column(name = "ano_veiculo")
     private Integer anoVeiculo;
 
-    /** Relacionamento 1:N — a FK está em Abastecimento.veiculo */
+	/** Relacionamento 1:N — a FK está em Abastecimento.veiculo */
     @OneToMany(mappedBy = "veiculo", fetch = FetchType.LAZY, orphanRemoval = false)
     @JsonIgnore // <-- impede Jackson de serializar (adeus loop/LAZY)
     private List<Abastecimento> abastecimentos = new ArrayList<>();
@@ -73,7 +77,16 @@ public class Veiculo {
 
     public List<Abastecimento> getAbastecimentos() { return abastecimentos; }
     public void setAbastecimentos(List<Abastecimento> abastecimentos) { this.abastecimentos = abastecimentos; }
+    
 
+    public String getApelido() {
+		return apelido;
+	}
+
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
+	}
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

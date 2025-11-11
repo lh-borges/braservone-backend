@@ -1,9 +1,16 @@
-// com.projetopetroleo.DTO.AbastecimentoResponseDTO
+// src/main/java/com/braservone/DTO/AbastecimentoResponseDTO.java
 package com.braservone.DTO;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.braservone.models.Abastecimento;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class AbastecimentoResponseDTO {
     private Long id;
     private String placaVeiculo;
@@ -18,23 +25,19 @@ public class AbastecimentoResponseDTO {
 
     private LocalDateTime dataAbastecimento;
 
-    // getters/setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getPlacaVeiculo() { return placaVeiculo; }
-    public void setPlacaVeiculo(String placaVeiculo) { this.placaVeiculo = placaVeiculo; }
-    public BigDecimal getDistRodadaKm() { return distRodadaKm; }
-    public void setDistRodadaKm(BigDecimal distRodadaKm) { this.distRodadaKm = distRodadaKm; }
-    public BigDecimal getVolumeLitros() { return volumeLitros; }
-    public void setVolumeLitros(BigDecimal volumeLitros) { this.volumeLitros = volumeLitros; }
-    public BigDecimal getValorTotal() { return valorTotal; }
-    public void setValorTotal(BigDecimal valorTotal) { this.valorTotal = valorTotal; }
-    public BigDecimal getValorPorLitro() { return valorPorLitro; }
-    public void setValorPorLitro(BigDecimal valorPorLitro) { this.valorPorLitro = valorPorLitro; }
-    public BigDecimal getMediaKmPorL() { return mediaKmPorL; }
-    public void setMediaKmPorL(BigDecimal mediaKmPorL) { this.mediaKmPorL = mediaKmPorL; }
-    public BigDecimal getMediaRsPorKm() { return mediaRsPorKm; }
-    public void setMediaRsPorKm(BigDecimal mediaRsPorKm) { this.mediaRsPorKm = mediaRsPorKm; }
-    public LocalDateTime getDataAbastecimento() { return dataAbastecimento; }
-    public void setDataAbastecimento(LocalDateTime dataAbastecimento) { this.dataAbastecimento = dataAbastecimento; }
+
+    public static AbastecimentoResponseDTO toResponse(Abastecimento a) {
+        if (a == null) return null;
+        AbastecimentoResponseDTO r = new AbastecimentoResponseDTO();
+        r.setId(a.getId());
+        r.setPlacaVeiculo(a.getVeiculo() != null ? a.getVeiculo().getPlaca() : null);
+        r.setDistRodadaKm(a.getDistRodadaKm());
+        r.setVolumeLitros(a.getVolumeLitros());
+        r.setValorTotal(a.getValorTotal());
+        r.setValorPorLitro(a.getValorPorLitro());
+        r.setMediaKmPorL(a.getMediaKmPorL());
+        r.setMediaRsPorKm(a.getMediaRsPorKm());
+        r.setDataAbastecimento(a.getDataAbastecimento());
+        return r;
+    }
 }

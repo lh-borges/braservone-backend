@@ -6,9 +6,12 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO;
 import com.braservone.enums.StatusQuimicos;
 import com.braservone.models.Quimico;
 
@@ -36,7 +39,6 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
   """)
   Optional<Quimico> findAtivoByCodigoFetchFornecedor(@Param("codigo") Long codigo);
 
-  // ===== Por status parametrizado =====
   @Query("""
       select q from Quimico q
       join fetch q.fornecedor
@@ -62,18 +64,20 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
   @EntityGraph(attributePaths = "fornecedor")
   List<Quimico> findByStatusQuimicos(StatusQuimicos status);
 
+  // ===== Saldo atual: estoqueInicial + entradas – saídas – estoqueUtilizado =====
   @Query("""
       select
-        coalesce(q.estoqueInicial, 0) +
-        coalesce(
-          sum(
-            case
-              when m.tipoMovimento = com.braservone.enums.TipoMovimento.ENTRADA
-                then m.qntMovimentada
-              else -m.qntMovimentada
-            end
-          ), 0
-        )
+        coalesce(q.estoqueInicial, 0)
+        + coalesce(
+            sum(
+              case
+                when m.tipoMovimento = com.braservone.enums.TipoMovimento.ENTRADA
+                  then m.qntMovimentada
+                else -m.qntMovimentada
+              end
+            ), 0
+          )
+        - coalesce(q.estoqueUtilizado, 0)
       from Quimico q
       left join com.braservone.models.QuimicoMovimento m
              on m.quimico.codigo = q.codigo
@@ -81,6 +85,7 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
   """)
   Optional<BigDecimal> estoqueAtual(@Param("codigo") Long codigo);
 
+  // Soma líquida das movimentações (entradas - saídas)
   @Query("""
       select coalesce(
         sum(
@@ -95,15 +100,15 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
       where m.quimico.codigo = :codigo
   """)
   BigDecimal sumMovimentadoLiquido(@Param("codigo") Long codigo);
-  
+
+  // ===== Agrupamento por tipo e estado (soma do saldo por bucket) =====
   @Query("""
 		  select new com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO(
 		      q.tipoQuimico,
 		      q.estadoLocalArmazenamento,
 		      coalesce(sum(
-		        coalesce(q.estoqueInicial, 0) +
-		        coalesce(
-		          (
+		        coalesce(q.estoqueInicial, 0)
+		        + coalesce((
 		            select sum(
 		              case
 		                when m2.tipoMovimento = com.braservone.enums.TipoMovimento.ENTRADA
@@ -113,14 +118,16 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
 		            )
 		            from com.braservone.models.QuimicoMovimento m2
 		            where m2.quimico.codigo = q.codigo
-		          ), 0
-		        )
+		        ), 0)
+		        - coalesce(q.estoqueUtilizado, 0)
 		      ), 0)
 		  )
 		  from Quimico q
+		  where q.statusQuimicos = com.braservone.enums.StatusQuimicos.ATIVO
 		  group by q.tipoQuimico, q.estadoLocalArmazenamento
 		  order by q.tipoQuimico, q.estadoLocalArmazenamento
 		""")
-		List<com.braservone.DTO.EstoqueQuimicoPorTipoRegiaoDTO> listarEstoqueAgrupadoPorTipoEEstado();
-  
+		List<EstoqueQuimicoPorTipoRegiaoDTO> listarEstoqueAgrupadoPorTipoEEstado();
+
+
 }
