@@ -48,7 +48,7 @@ public class User {
   // @JsonIgnore
   // @Column(length = 120) private String password;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.EAGER)
   private Set<Role> roles = new HashSet<>();
 
   public String getUsername() {

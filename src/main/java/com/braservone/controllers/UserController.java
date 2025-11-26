@@ -1,5 +1,6 @@
 package com.braservone.controllers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable("id") String username) {
         User user = userService.getUserByUsername(username)
@@ -49,10 +51,9 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.badRequest().body("Não foi possível fazer o cadastro"));
     }
 
-    // --- CORREÇÃO DE SEGURANÇA (IDOR) ---
-    // #root.args[0] pega o primeiro parâmetro (id) independentemente do nome da variável compilada.
+
     @PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("#root.args[0] == authentication.name or hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("isAuthenticated() and (#id == authentication.name or hasAuthority('ROLE_ADMIN'))")
     public ResponseEntity<?> patchUser(
             @PathVariable("id") String id, 
             @Valid @RequestBody UpdateUserDTO dto) {
