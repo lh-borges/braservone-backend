@@ -63,7 +63,13 @@ public class QuimicoService {
                 "Químico ativo não encontrado: " + codigo));
     }
 
-    
+    /** Saldo atual = estoqueInicial + entradas – saídas – estoqueUtilizado. */
+    @Transactional(readOnly = true)
+    public BigDecimal estoqueAtual(Long codigo) {
+        return quimicoRepository.estoqueAtual(codigo)
+            .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException(
+                "Químico não encontrado: " + codigo));
+    }
 
     // ========================= LITE para o Front (map de lote/tipo) =========================
 

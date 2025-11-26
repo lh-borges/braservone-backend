@@ -2967,3 +2967,189 @@ Caused by: java.sql.SQLException: Cannot change column 'poco_codigo_anp': used i
 2025-11-26T10:42:29.146-03:00 DEBUG 64856 --- [http-nio-0.0.0.0-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/auth/me
 2025-11-26T10:42:29.562-03:00 DEBUG 64856 --- [http-nio-0.0.0.0-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
 2025-11-26T10:42:29.568-03:00 DEBUG 64856 --- [http-nio-0.0.0.0-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/veiculos
+2025-11-26T10:48:18.227-03:00  INFO 64856 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
+2025-11-26T10:48:18.337-03:00  INFO 64856 --- [Thread-43] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-11-26T10:48:18.352-03:00  INFO 64856 --- [Thread-43] o.a.c.c.C.[Tomcat].[localhost].[/]       : Destroying Spring FrameworkServlet 'dispatcherServlet'
+2025-11-26T10:48:18.565-03:00  WARN 64856 --- [Thread-43] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-11 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1763)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2025-11-26T10:48:18.697-03:00  INFO 64856 --- [Thread-43] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26T10:48:18.710-03:00  INFO 64856 --- [Thread-43] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown initiated...
+2025-11-26T10:48:18.730-03:00  INFO 64856 --- [Thread-43] com.zaxxer.hikari.HikariDataSource       : HikariPool-11 - Shutdown completed.
+2025-11-26T10:48:19.764-03:00  INFO 64856 --- [restartedMain] com.braservone.BraservOneApplication     : Starting BraservOneApplication using Java 21.0.6 with PID 64856 (C:\Users\luis.silveira\OneDrive\Documentos\Projetos\braserv-one\target\classes started by luis.silveira in C:\Users\luis.silveira\OneDrive\Documentos\Projetos\braserv-one)
+2025-11-26T10:48:19.766-03:00  INFO 64856 --- [restartedMain] com.braservone.BraservOneApplication     : The following 1 profile is active: "dev"
+2025-11-26T10:48:21.277-03:00  INFO 64856 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-26T10:48:21.373-03:00  INFO 64856 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 94 ms. Found 11 JPA repository interfaces.
+2025-11-26T10:48:21.765-03:00  INFO 64856 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2025-11-26T10:48:21.766-03:00  INFO 64856 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-26T10:48:21.767-03:00  INFO 64856 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.8]
+2025-11-26T10:48:21.829-03:00  INFO 64856 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-26T10:48:21.829-03:00  INFO 64856 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2048 ms
+2025-11-26T10:48:22.060-03:00  INFO 64856 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-26T10:48:22.082-03:00  INFO 64856 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-11-26T10:48:22.083-03:00  INFO 64856 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-26T10:48:22.086-03:00  INFO 64856 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Starting...
+2025-11-26T10:48:22.235-03:00  INFO 64856 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-12 - Added connection com.mysql.cj.jdbc.ConnectionImpl@66e43879
+2025-11-26T10:48:22.236-03:00  INFO 64856 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-12 - Start completed.
+2025-11-26T10:48:22.242-03:00  INFO 64856 --- [restartedMain] org.hibernate.orm.dialect                : HHH035001: Using dialect: org.hibernate.dialect.MySQLDialect, version: 9.2
+2025-11-26T10:48:22.340-03:00  INFO 64856 --- [restartedMain] o.h.b.i.BytecodeProviderInitiator        : HHH000021: Bytecode provider name : bytebuddy
+2025-11-26T10:48:22.608-03:00  INFO 64856 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2025-11-26T10:48:23.557-03:00  WARN 64856 --- [restartedMain] o.h.t.s.i.ExceptionHandlerLoggedImpl     : GenerationTarget encountered exception accepting command : Error executing DDL "
+    alter table quimico_movimento 
+       modify column poco_codigo_anp  varchar(64) not null" via JDBC [Cannot change column 'poco_codigo_anp': used in a foreign key constraint 'FK7f4aam2a1bmp2aie4lwwgj56v']
+
+org.hibernate.tool.schema.spi.CommandAcceptanceException: Error executing DDL "
+    alter table quimico_movimento 
+       modify column poco_codigo_anp  varchar(64) not null" via JDBC [Cannot change column 'poco_codigo_anp': used in a foreign key constraint 'FK7f4aam2a1bmp2aie4lwwgj56v']
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:92) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlString(AbstractSchemaMigrator.java:574) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.applySqlStrings(AbstractSchemaMigrator.java:514) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.migrateTable(AbstractSchemaMigrator.java:333) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.internal.GroupedSchemaMigratorImpl.performTablesMigration(GroupedSchemaMigratorImpl.java:84) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.performMigration(AbstractSchemaMigrator.java:232) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.internal.AbstractSchemaMigrator.doMigration(AbstractSchemaMigrator.java:117) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.performDatabaseAction(SchemaManagementToolCoordinator.java:284) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.lambda$process$5(SchemaManagementToolCoordinator.java:143) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[na:na]
+	at org.hibernate.tool.schema.spi.SchemaManagementToolCoordinator.process(SchemaManagementToolCoordinator.java:140) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.boot.internal.SessionFactoryObserverForSchemaExport.sessionFactoryCreated(SessionFactoryObserverForSchemaExport.java:37) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.internal.SessionFactoryObserverChain.sessionFactoryCreated(SessionFactoryObserverChain.java:35) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:291) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:431) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1455) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66) ~[spring-orm-6.0.9.jar:6.0.9]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:376) ~[spring-orm-6.0.9.jar:6.0.9]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409) ~[spring-orm-6.0.9.jar:6.0.9]
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396) ~[spring-orm-6.0.9.jar:6.0.9]
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:352) ~[spring-orm-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1816) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1766) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:693) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:517) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1332) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1162) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1682) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1431) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:597) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:888) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:245) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:710) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:693) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:133) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:482) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1416) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:597) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.0.9.jar:6.0.9]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:210) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:173) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:168) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:153) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:86) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:261) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:235) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4882) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:846) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1332) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1322) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:871) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:241) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:428) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:913) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:485) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:123) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:104) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:489) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:211) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:183) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:161) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:602) ~[spring-context-6.0.9.jar:6.0.9]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:733) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:435) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:311) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1305) ~[spring-boot-3.1.0.jar:3.1.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1294) ~[spring-boot-3.1.0.jar:3.1.0]
+	at com.braservone.BraservOneApplication.main(BraservOneApplication.java:10) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-3.1.0.jar:3.1.0]
+Caused by: java.sql.SQLException: Cannot change column 'poco_codigo_anp': used in a foreign key constraint 'FK7f4aam2a1bmp2aie4lwwgj56v'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.StatementImpl.executeInternal(StatementImpl.java:763) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.mysql.cj.jdbc.StatementImpl.execute(StatementImpl.java:648) ~[mysql-connector-j-8.0.33.jar:8.0.33]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.0.1.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.0.1.jar:na]
+	at org.hibernate.tool.schema.internal.exec.GenerationTargetToDatabase.accept(GenerationTargetToDatabase.java:78) ~[hibernate-core-6.2.2.Final.jar:6.2.2.Final]
+	... 126 common frames omitted
+
+2025-11-26T10:48:23.957-03:00  INFO 64856 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-26T10:48:25.628-03:00  INFO 64856 --- [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint(s) beneath base path '/actuator'
+2025-11-26T10:48:25.699-03:00  INFO 64856 --- [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5d6da982, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@e4760b7, org.springframework.security.web.context.SecurityContextHolderFilter@6e5a1204, org.springframework.security.web.header.HeaderWriterFilter@c50229c, org.springframework.web.filter.CorsFilter@7b70e4c9, org.springframework.security.web.authentication.logout.LogoutFilter@5660a323, com.braservone.security.jwt.AuthTokenFilter@14e392cc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@590616c8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@54cf8bb6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@73f3c995, org.springframework.security.web.session.SessionManagementFilter@27e37098, org.springframework.security.web.access.ExceptionTranslationFilter@71b8da75, org.springframework.security.web.access.intercept.AuthorizationFilter@1783f11b]
+2025-11-26T10:48:26.001-03:00  INFO 64856 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-11-26T10:48:26.092-03:00  INFO 64856 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2025-11-26T10:48:26.108-03:00  INFO 64856 --- [restartedMain] com.braservone.BraservOneApplication     : Started BraservOneApplication in 6.798 seconds (process running for 10181.335)
+2025-11-26T10:48:26.188-03:00  INFO 64856 --- [restartedMain] com.braservone.config.BootstrapSeeder    : [BOOTSTRAP] account já existente e ativa: lhborges
+2025-11-26T10:48:26.195-03:00  INFO 64856 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
