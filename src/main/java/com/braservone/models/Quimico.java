@@ -81,4 +81,42 @@ public class Quimico {
         if (p.dataValidade != null)      this.dataValidade = p.dataValidade;
         if (p.estoqueUtilizado != null)  this.estoqueUtilizado = p.estoqueUtilizado;
     }
+    
+    public void adicionarEstoque(BigDecimal valor) {
+        if (valor == null) {
+            throw new IllegalArgumentException("Valor não pode ser nulo");
+        }
+
+        // Garante que não vai dar NullPointer
+        BigDecimal atual = this.getEstoqueUtilizado();
+        if (atual == null) {
+            atual = BigDecimal.ZERO;
+        }
+
+        this.setEstoqueUtilizado(atual.add(valor));
+    }
+    
+    public void removerEstoque(BigDecimal valor) {
+        if (valor == null) {
+            throw new IllegalArgumentException("Valor não pode ser nulo");
+        }
+
+        BigDecimal atual = this.getEstoqueUtilizado();
+        if (atual == null) {
+            atual = BigDecimal.ZERO;
+        }
+
+        BigDecimal novo = atual.subtract(valor);
+
+        if (novo.compareTo(BigDecimal.ZERO) < 0) {
+            // aqui você escolhe: zera ou lança erro
+            throw new IllegalStateException("Estoque utilizado não pode ficar negativo");
+            // ou, se quiser só travar em zero:
+            // novo = BigDecimal.ZERO;
+        }
+
+        this.setEstoqueUtilizado(novo);
+    }
+
+    
 }

@@ -12,129 +12,118 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.braservone.models.Account;
 import com.braservone.models.Role;
-// REMOVIDO: import com.braservone.models.Empresa;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private final String username;
-  private final String email;
+    private final String username;
+    private final String email;
 
-  @JsonIgnore
-  private final String password;
+    @JsonIgnore
+    private final String password;
 
-  private final boolean enabled;
+    private final boolean enabled;
 
-  // REMOVIDO: Campo Empresa
-  // private final Empresa empresa; 
+    private final Collection<? extends GrantedAuthority> authorities;
 
-  private final Collection<? extends GrantedAuthority> authorities;
-
-  // Construtor ajustado (Empresa removida)
-  public UserDetailsImpl(
-      String username,
-      String email,
-      String password,
-      boolean enabled,
-      Collection<? extends GrantedAuthority> authorities
-  ) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-    this.enabled = enabled;
-    // REMOVIDO: this.empresa = empresa;
-    this.authorities = authorities;
-  }
-
-  /**
-   * Constrói o UserDetails a partir da Account (credenciais).
-   * Agrega roles de account e, opcionalmente, roles do perfil (user).
-   */
-  public static UserDetailsImpl build(Account account) {
-    // Roles da account
-    final List<GrantedAuthority> accAuthorities = account.getRoles().stream()
-        .map(Role::getName) // ERole
-        .map(er -> new SimpleGrantedAuthority(er.name()))
-        .collect(Collectors.toList());
-
-    // (Opcional) agregar roles do perfil
-    final var merged = new HashSet<GrantedAuthority>(accAuthorities);
-    if (account.getUser() != null && account.getUser().getRoles() != null) {
-      account.getUser().getRoles().forEach(r ->
-          merged.add(new SimpleGrantedAuthority(r.getName().name()))
-      );
+    // --- 1. CONSTRUTOR PRINCIPAL (Mapeia todos os campos) ---
+    public UserDetailsImpl(
+            String username,
+            String email,
+            String password,
+            boolean enabled,
+            Collection<? extends GrantedAuthority> authorities) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+        this.authorities = authorities;
     }
 
-    final String email = account.getUser() != null ? account.getUser().getEmail() : null;
-    // REMOVIDO: final Empresa empresa = account.getUser() != null ? account.getUser().getEmpresa() : null;
+    // --- 2. CONSTRUTOR SECUNDÁRIO (Para compatibilidade com Testes) ---
+    // O teste passa: ID (String), Username, Email, Password, Authorities.
+    // Como removemos o campo ID da classe, ignoramos o primeiro argumento e fixamos enabled = true.
+    public UserDetailsImpl(String id, String username, String email, String password,
+            Collection<? extends GrantedAuthority> authorities) {
+        this(username, email, password, true, authorities);
+    }
 
-    return new UserDetailsImpl(
-        account.getUsername(),
-        email,
-        account.getPassword(),
-        account.isEnabled(),
-        // REMOVIDO: empresa,
-        merged
-    );
-  }
+    // --- BUILDER (Usado na autenticação real) ---
+    public static UserDetailsImpl build(Account account) {
+        // Roles da account
+        final List<GrantedAuthority> accAuthorities = account.getRoles().stream()
+                .map(Role::getName)
+                .map(er -> new SimpleGrantedAuthority(er.name()))
+                .collect(Collectors.toList());
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return authorities;
-  }
+        // (Opcional) agregar roles do perfil
+        final var merged = new HashSet<GrantedAuthority>(accAuthorities);
+        if (account.getUser() != null && account.getUser().getRoles() != null) {
+            account.getUser().getRoles().forEach(r -> 
+                merged.add(new SimpleGrantedAuthority(r.getName().name()))
+            );
+        }
 
-  public String getEmail() {
-    return email;
-  }
+        final String email = account.getUser() != null ? account.getUser().getEmail() : null;
 
-  // REMOVIDO: Getter da Empresa
-  /*
-  public Empresa getEmpresa() {
-    return empresa;
-  }
-  */
+        return new UserDetailsImpl(
+                account.getUsername(),
+                email,
+                account.getPassword(),
+                account.isEnabled(),
+                merged);
+    }
 
-  @Override
-  public String getPassword() {
-    return password;
-  }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
 
-  @Override
-  public String getUsername() {
-    return username;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return enabled;
-  }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    UserDetailsImpl that = (UserDetailsImpl) o;
-    return Objects.equals(username, that.username);
-  }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(username);
-  }
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDetailsImpl that = (UserDetailsImpl) o;
+        return Objects.equals(username, that.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
+    }
 }

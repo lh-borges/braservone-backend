@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +67,9 @@ public class QuimicoMovimentoService {
                 "Saldo insuficiente. Estoque atual: " + saldoAtualAntes.toPlainString()
             );
         }
+        
+        //adiciona a quantidade
+        quimico.adicionarEstoque(quantidade);
 
         QuimicoMovimento mov = new QuimicoMovimento();
         mov.setQuimico(quimico);
@@ -84,6 +88,26 @@ public class QuimicoMovimentoService {
     	List<QuimicoMovimento> listMov = movimentoRepo.findAllFetch();
     	System.out.println(listMov.get(0).getQuimico().getLote());
         return listMov ;
+    }
+    
+
+    @Transactional
+    public void deletarMovimento(Long id) {
+        
+        var movimento = movimentoRepo.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Movimento não encontrado para o id: " + id));
+
+        
+        Quimico quimico = movimento.getQuimico();      
+        BigDecimal quantidade = movimento.getQntMovimentada(); 
+
+        if (quimico != null && quantidade != null) {
+
+            quimico.removerEstoque(quantidade);
+            quimicoRepo.save(quimico);
+        }
+        
+        movimentoRepo.delete(movimento);
     }
 
     @Transactional(readOnly = true)
