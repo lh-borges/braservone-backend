@@ -79,7 +79,6 @@ public class Quimico {
         if (p.observacao != null)  this.observacao = p.observacao;
         // 🆕 campos novos no patch:
         if (p.dataValidade != null)      this.dataValidade = p.dataValidade;
-        if (p.estoqueUtilizado != null)  this.estoqueUtilizado = p.estoqueUtilizado;
     }
     
     public void adicionarEstoque(BigDecimal valor) {
