@@ -40,6 +40,7 @@ public class QuimicoMovimentoService {
                                                   TipoMovimento tipo,
                                                   BigDecimal quantidade) {
 
+        // 1. Validações Iniciais
         if (tipo == null) {
             throw new IllegalArgumentException("Tipo de movimento é obrigatório.");
         }
@@ -48,8 +49,10 @@ public class QuimicoMovimentoService {
             throw new IllegalArgumentException("Quantidade deve ser positiva.");
         }
 
+        // Garante precisão de 6 casas decimais
         quantidade = quantidade.setScale(6, RoundingMode.HALF_UP);
 
+        // 2. Busca e Otimização: Evitar chamadas desnecessárias ao banco (findById.get())
         Quimico quimico = quimicoRepo.findById(quimicoCodigo)
             .orElseThrow(() -> new EntityNotFoundException(
                 "Químico não encontrado: " + quimicoCodigo));
@@ -58,26 +61,44 @@ public class QuimicoMovimentoService {
             .orElseThrow(() -> new EntityNotFoundException(
                 "Poço não encontrado (codigoAnp): " + pocoCodigoAnp));
 
-        BigDecimal saldoAtualAntes = quimicoRepo.estoqueAtual(quimicoCodigo)
-            .orElse(BigDecimal.ZERO)
-            .setScale(6, RoundingMode.HALF_UP);
+        // 3. Cálculo do Saldo ATUAL e Validação de SAÍDA
+        // Saldo = Estoque Inicial - Estoque Utilizado
+        BigDecimal estoqueInicial = quimico.getEstoqueInicial() != null ? quimico.getEstoqueInicial() : BigDecimal.ZERO;
+        BigDecimal estoqueUtilizado = quimico.getEstoqueUtilizado() != null ? quimico.getEstoqueUtilizado() : BigDecimal.ZERO;
 
-        if (tipo == TipoMovimento.SAIDA && saldoAtualAntes.compareTo(quantidade) < 0) {
+        BigDecimal saldoAtual = estoqueInicial.subtract(estoqueUtilizado);
+
+        if (tipo == TipoMovimento.SAIDA && saldoAtual.compareTo(quantidade) < 0) {
             throw new IllegalStateException(
-                "Saldo insuficiente. Estoque atual: " + saldoAtualAntes.toPlainString()
+                "Saldo insuficiente. Estoque atual: " + saldoAtual.toPlainString()
             );
         }
         
-        //adiciona a quantidade
-        quimico.adicionarEstoque(quantidade);
+        // 4. ATUALIZAÇÃO DA ENTIDADE QUÍMICA
+        // **********************************************
+        // Lógica Corrigida:
+        // SAÍDA -> Incrementa Estoque Utilizado (Consumo)
+        // ENTRADA -> Incrementa Estoque Inicial (Compra/Reposição)
+        if (tipo == TipoMovimento.SAIDA) {
+            // Correção: Use um método set/adicionar adequado ao contexto de saída
+            BigDecimal novoUtilizado = estoqueUtilizado.add(quantidade);
+            quimico.setEstoqueUtilizado(novoUtilizado);
+        } else { // ENTRADA
+            // Correção: Incrementa o Estoque Inicial
+            BigDecimal novoInicial = estoqueInicial.add(quantidade);
+            quimico.setEstoqueInicial(novoInicial);
+        }
+        // **********************************************
 
+        // 5. Criação e Registro do Movimento
         QuimicoMovimento mov = new QuimicoMovimento();
-        mov.setQuimico(quimico);
+        mov.setQuimico(quimico); // A entidade 'quimico' já está no contexto de persistência (@Transactional)
         mov.setPoco(poco);
         mov.setTipoMovimento(tipo);
         mov.setQntMovimentada(quantidade);
         
-       
+        // O JpaRepository fará o 'quimicoRepo.save(quimico)' implicitamente
+        // se Quimico for atualizado no mesmo contexto @Transactional (recommended)
 
         return movimentoRepo.save(mov);
     }

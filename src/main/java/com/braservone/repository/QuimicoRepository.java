@@ -64,26 +64,6 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
   @EntityGraph(attributePaths = "fornecedor")
   List<Quimico> findByStatusQuimicos(StatusQuimicos status);
 
-  // ===== Saldo atual: estoqueInicial + entradas – saídas – estoqueUtilizado =====
-  @Query("""
-      select
-        coalesce(q.estoqueInicial, 0)
-        + coalesce(
-            sum(
-              case
-                when m.tipoMovimento = com.braservone.enums.TipoMovimento.ENTRADA
-                  then m.qntMovimentada
-                else -m.qntMovimentada
-              end
-            ), 0
-          )
-        - coalesce(q.estoqueUtilizado, 0)
-      from Quimico q
-      left join com.braservone.models.QuimicoMovimento m
-             on m.quimico.codigo = q.codigo
-      where q.codigo = :codigo
-  """)
-  Optional<BigDecimal> estoqueAtual(@Param("codigo") Long codigo);
 
   // Soma líquida das movimentações (entradas - saídas)
   @Query("""
@@ -100,6 +80,9 @@ public interface QuimicoRepository extends JpaRepository<Quimico, Long> {
       where m.quimico.codigo = :codigo
   """)
   BigDecimal sumMovimentadoLiquido(@Param("codigo") Long codigo);
+  
+  @Query("SELECT q.estoqueInicial - q.estoqueUtilizado FROM Quimico q WHERE q.codigo = :codigo")
+  Optional<BigDecimal> estoqueAtual(@Param("codigo") Long codigo);
 
   // ===== Agrupamento por tipo e estado (soma do saldo por bucket) =====
   @Query("""

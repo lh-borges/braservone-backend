@@ -60,8 +60,7 @@ public class QuimicoMovimentoController {
             req.getTipo(),
             req.getQuantidade()
         );
-        
-        System.out.println("FAZENDO REGISTRO DO MOVIMENTO:" + req.getPocoCodigoAnp());
+       
         
         return ResponseEntity.ok(salvo);
     }
